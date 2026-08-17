@@ -35,9 +35,10 @@ header {
 }
 .title a {
   font-family: "Story Script", sans-serif;
-  font-size: 1.5em;
-  text-transform: uppercase;
+  font-size: 3rem;
   font-weight: 600;
+  font-style: italic;
+  padding-left: 2rem;
   color: var(--black);
 }
 .side-hamburger {
@@ -85,7 +86,6 @@ header {
   display: grid;
   place-content: center;
   margin-top: 10px;
-  font-size: 1.2em;
 }
 .get__started a {
   width: 100%;
@@ -95,6 +95,8 @@ header {
   text-decoration: none;
   border-radius: 5px;
   text-align: center;
+  font-size: 20px;
+  font-weight: 600;
 }
 .get__started a:hover {
   background: var(--purple);

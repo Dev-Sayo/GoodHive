@@ -3,67 +3,210 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GoodHive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
     />
-    <title>Briskett - your personal space</title>
     <link rel="stylesheet" href="../css/homepage.css" />
   </head>
   <body>
-    <header>
-      <div class="title">
-        <a href="#">Briskett</a>
+    <div class="app">
+      <div class="topbar">
+        <div class="brand" onclick="showView('home')">
+          <div class="hive-mark"><span></span></div>
+          GoodHive
+        </div>
+        <div class="search-wrap">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="11" cy="11" r="7" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input
+            id="search"
+            placeholder="Find..."
+            oninput="handleSearch(this.value)"
+          />
+        </div>
       </div>
-      <div class="search">
-        <input type="search" />
-      </div>
-      <div class="profile">
-        <p>SB</p>
-      </div>
-    </header>
-    <aside>
-      <section>
-        <div class="aside-tools">
-          <div class="home">
-            <i class="fa-solid fa-home" style="color: rgb(255, 255, 255)"></i>
-            <span>Home</span>
+      <!--  -->
+      <div class="body-row">
+        <div class="sidebar">
+          <div
+            class="nav-item active"
+            data-view="home"
+            onclick="showView('home')"
+          >
+            <span class="label">Home</span>
           </div>
-          <div class="add">
-            <i class="fa-solid fa-add" style="color: rgb(255, 255, 255)"></i>
-            <span>Add</span>
+          <div class="nav-item" data-view="add" onclick="showView('add')">
+            <span class="label">Add</span>
           </div>
-          <div class="books">
-            <i class="fa-solid fa-book" style="color: rgb(255, 255, 255)"></i>
-            <span>Books</span>
+          <div class="nav-item" data-view="books" onclick="showView('books')">
+            <span class="label">Books</span
+            ><span class="nav-count" id="count-books">0</span>
           </div>
-          <div class="movies">
-            <i class="fa-solid fa-film" style="color: rgb(255, 255, 255)"></i>
-            <span>Movies</span>
+          <div class="nav-item" data-view="movies" onclick="showView('movies')">
+            <span class="label">Movies</span
+            ><span class="nav-count" id="count-movies">0</span>
           </div>
         </div>
-      </section>
-    </aside>
-    <main>
-      <section class="collection-grid">
-        <!-- <div id="collection-frame">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div> -->
-      </section>
-    </main>
-    <footer></footer>
-    <script src="../js/hoomepage.js"></script>
+
+        <main>
+          <!-- HOME -->
+          <section class="view active" id="view-home">
+            <h1 class="page-title">Welcome back!</h1>
+            <p class="page-sub">Your shelf, at a glance.</p>
+
+            <div class="stat-row">
+              <div class="stat-card">
+                <div class="stat-num" id="stat-total">0</div>
+                <div class="stat-label">Total entries</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-num" id="stat-books">0</div>
+                <div class="stat-label">Books</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-num" id="stat-movies">0</div>
+                <div class="stat-label">Movies</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-num" id="stat-progress">0</div>
+                <div class="stat-label">In progress</div>
+              </div>
+            </div>
+
+            <div class="section-heading">
+              <h2>Recently added</h2>
+              <a onclick="showView('books')">View all books →</a>
+            </div>
+            <div class="grid" id="home-recent"></div>
+          </section>
+
+          <!-- ADD -->
+          <section class="view" id="view-add">
+            <h1 class="page-title">Add to your hive</h1>
+            <p class="page-sub">Log a book or a movie.</p>
+
+            <div class="type-toggle">
+              <button
+                type="button"
+                class="active"
+                data-type="book"
+                onclick="setEntryType('book')"
+              >
+                Book
+              </button>
+              <button
+                type="button"
+                data-type="movie"
+                onclick="setEntryType('movie')"
+              >
+                Movie
+              </button>
+            </div>
+
+            <form
+              class="entry-form"
+              id="entry-form"
+              onsubmit="handleSubmit(event)"
+            >
+              <div class="field">
+                <label id="label-title">Title</label>
+                <input
+                  type="text"
+                  id="f-title"
+                  required
+                  placeholder="e.g. The Left Hand of Darkness"
+                />
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label id="label-creator">Author</label>
+                  <input
+                    type="text"
+                    id="f-creator"
+                    placeholder="e.g. Ursula K. Le Guin"
+                  />
+                </div>
+                <div class="field">
+                  <label>Year</label>
+                  <input
+                    type="number"
+                    id="f-year"
+                    placeholder="e.g. 1969"
+                    min="1000"
+                    max="2100"
+                  />
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label>Status</label>
+                  <select id="f-status">
+                    <option value="want" id="opt-want">Want to read</option>
+                    <option value="in-progress" id="opt-progress">
+                      Reading
+                    </option>
+                    <option value="finished" id="opt-finished">Finished</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Cover image URL (optional)</label>
+                  <input type="url" id="f-cover" placeholder="https://..." />
+                </div>
+              </div>
+              <div class="field">
+                <label>Rating</label>
+                <div class="rating-picker" id="rating-picker"></div>
+              </div>
+              <div class="field">
+                <label>Notes</label>
+                <textarea
+                  id="f-notes"
+                  placeholder="Thoughts, quotes, why you picked it up..."
+                ></textarea>
+              </div>
+              <button type="submit" class="submit-btn" id="submit-label">
+                Add book
+              </button>
+              <div class="form-msg" id="form-msg"></div>
+            </form>
+          </section>
+
+          <!-- BOOKS -->
+          <section class="view" id="view-books">
+            <h1 class="page-title">Books</h1>
+            <p class="page-sub" id="books-sub">Your reading shelf.</p>
+            <div class="grid" id="books-grid"></div>
+          </section>
+
+          <!-- MOVIES -->
+          <section class="view" id="view-movies">
+            <h1 class="page-title">Movies</h1>
+            <p class="page-sub" id="movies-sub">Your watchlist and archive.</p>
+            <div class="grid" id="movies-grid"></div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <div
+      class="modal-overlay"
+      id="modal-overlay"
+      onclick="if (event.target === this) closeModal();"
+    >
+      <div class="modal" id="modal-content"></div>
+    </div>
+
+    <script src="../js/homepage.js"></script>
   </body>
 </html>
